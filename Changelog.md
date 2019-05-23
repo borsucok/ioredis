@@ -1,3 +1,59 @@
+## [4.9.5](https://github.com/luin/ioredis/compare/v4.9.4...v4.9.5) (2019-05-15)
+
+
+### Bug Fixes
+
+* **cluster:** make blocking commands works with cluster ([#867](https://github.com/luin/ioredis/issues/867)) ([68db71b](https://github.com/luin/ioredis/commit/68db71b)), closes [#850](https://github.com/luin/ioredis/issues/850) [#850](https://github.com/luin/ioredis/issues/850)
+
+## [4.9.4](https://github.com/luin/ioredis/compare/v4.9.3...v4.9.4) (2019-05-13)
+
+
+### Bug Fixes
+
+* handle non-utf8 command name ([#866](https://github.com/luin/ioredis/issues/866)) ([9ddb58b](https://github.com/luin/ioredis/commit/9ddb58b)), closes [#862](https://github.com/luin/ioredis/issues/862)
+
+## [4.9.3](https://github.com/luin/ioredis/compare/v4.9.2...v4.9.3) (2019-05-07)
+
+
+### Bug Fixes
+
+* more meaningful errors when using pipeline after exec(). ([#858](https://github.com/luin/ioredis/issues/858)) ([0c3ef01](https://github.com/luin/ioredis/commit/0c3ef01))
+
+## [4.9.2](https://github.com/luin/ioredis/compare/v4.9.1...v4.9.2) (2019-05-03)
+
+
+### Bug Fixes
+
+* removed flexbuffer dependency ([#856](https://github.com/luin/ioredis/issues/856)) ([35e0c5e](https://github.com/luin/ioredis/commit/35e0c5e))
+
+## [4.9.1](https://github.com/luin/ioredis/compare/v4.9.0...v4.9.1) (2019-03-22)
+
+
+### Bug Fixes
+
+* use flexbuffer from GH with License ([#821](https://github.com/luin/ioredis/issues/821)) ([93ecd70](https://github.com/luin/ioredis/commit/93ecd70))
+
+# [4.9.0](https://github.com/luin/ioredis/compare/v4.8.0...v4.9.0) (2019-03-18)
+
+
+### Features
+
+* **sentinel:** support Sentinel instances with authentication. ([#817](https://github.com/luin/ioredis/issues/817)) ([2437eae](https://github.com/luin/ioredis/commit/2437eae))
+
+# [4.8.0](https://github.com/luin/ioredis/compare/v4.7.0...v4.8.0) (2019-03-12)
+
+
+### Features
+
+* nat support for sentinel connector ([#799](https://github.com/luin/ioredis/issues/799)) ([335b3e2](https://github.com/luin/ioredis/commit/335b3e2))
+
+# [4.7.0](https://github.com/luin/ioredis/compare/v4.6.3...v4.7.0) (2019-03-12)
+
+
+### Features
+
+* add updateSentinels option to control new sentinel values being added to the original list ([#814](https://github.com/luin/ioredis/issues/814)) ([50a9db7](https://github.com/luin/ioredis/commit/50a9db7)), closes [#798](https://github.com/luin/ioredis/issues/798)
+
 ## [4.6.3](https://github.com/luin/ioredis/compare/v4.6.2...v4.6.3) (2019-02-03)
 
 

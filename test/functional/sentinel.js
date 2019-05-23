@@ -124,6 +124,95 @@ describe('sentinel', function () {
         name: 'master'
       });
     });
+
+    it('should add additionally discovered sentinels when resolving successfully', function (done) {
+
+      var sentinels = [
+        { host: '127.0.0.1', port: 27379 }
+      ];
+
+      var sentinel = new MockServer(27379, function (argv) {
+        if (argv[0] === 'sentinel' && argv[1] === 'get-master-addr-by-name') {
+          return ['127.0.0.1', '17380'];
+        }
+        else if (argv[0] === 'sentinel' && argv[1] === 'sentinels') {
+          return [['ip', '127.0.0.1', 'port', '27379'], ['ip', '127.0.0.1', 'port', '27380']];
+        }
+
+      });
+      var master = new MockServer(17380);
+      sentinel.once('disconnect', function () {
+        redis.disconnect();
+        master.disconnect(function () {
+          expect(sentinels.length).to.eql(2);
+          sentinel.disconnect(done);
+        });
+      });
+
+      var redis = new Redis({
+        sentinels: sentinels,
+        name: 'master'
+      });
+    });
+
+    it('should skip additionally discovered sentinels even if they are resolved successfully', function (done) {
+
+      var sentinels = [
+        { host: '127.0.0.1', port: 27379 }
+      ];
+
+      var sentinel = new MockServer(27379, function (argv) {
+        if (argv[0] === 'sentinel' && argv[1] === 'get-master-addr-by-name') {
+          return ['127.0.0.1', '17380'];
+        }
+        else if (argv[0] === 'sentinel' && argv[1] === 'sentinels') {
+          return [['ip', '127.0.0.1', 'port', '27379'], ['ip', '127.0.0.1', 'port', '27380']];
+        }
+
+      });
+      var master = new MockServer(17380);
+      sentinel.once('disconnect', function () {
+        redis.disconnect();
+        master.disconnect(function () {
+          expect(sentinels.length).to.eql(1);
+          expect(sentinels[0].port).to.eql(27379);
+          sentinel.disconnect(done);
+        });
+      });
+
+      var redis = new Redis({
+        sentinels: sentinels,
+        updateSentinels: false,
+        name: 'master'
+      });
+    });
+    it('should connect to sentinel with authentication successfully', function (done) {
+      var authed = false;
+      var redisServer = new MockServer('17380', function (argv) {
+        if (argv[0] === 'auth' && argv[1] === 'pass') {
+          authed = true;
+        } else if (argv[0] === 'get' && argv[1] === 'foo') {
+          expect(authed).to.eql(true);
+          redisServer.disconnect();
+          done();
+        }
+      })
+      var sentinel = new MockServer(27379, function (argv) {
+        if (argv[0] === 'sentinel' && argv[1] === 'get-master-addr-by-name') {
+          sentinel.disconnect(done);
+          return ['127.0.0.1', '17380'];
+        }
+      });
+
+      var redis = new Redis({
+        sentinelPassword: 'pass',
+        sentinels: [
+          { host: '127.0.0.1', port: '27379' }
+        ],
+        name: 'master'
+      });
+      redis.get('foo').catch(function () {});
+    });
   });
 
   describe('master', function () {
